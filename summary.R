@@ -1,6 +1,6 @@
 ###preparation of sample set
   ##input 60 AAS sample
-  aasList <- read.csv("C:/Users/yikou/Desktop/neuralNet/aasList.txt", row.names=1, sep=";")
+  aasList <- read.csv("~/aasList.txt", row.names=1, sep=";")
   ##input label of AAS sample, generates AAS with normalized sugarbinding score
   aasList_labeled <- as.data.frame(matrix(ncol = 5, nrow = 60))
   aasList_labeled[,1] <- aasList[,1]  
@@ -10,9 +10,9 @@
 
 ###importing value matrixes
   ##AA exchange matrix
-  aaEX <- read.csv("C:/Users/yikou/Desktop/neuralNet/aaEX.txt", row.names=1, sep="")
+  aaEX <- read.csv("~/aaEX.txt", row.names=1, sep="")
   ##anchor AAS cavity fragments (cavity fragment sequence obtained from 6A search of molegro output)
-  Frags <- read.csv("C:/Users/yikou/Desktop/neuralNet/Frags.txt", row.names=1, sep=";")
+  Frags <- read.csv("~/Frags.txt", row.names=1, sep=";")
   AAAS_cavity <- data.frame(matrix(nrow = 10, ncol = 16))
   AAAS_cavity[,1] <- aasList[c(1:10), 1]
   for(a in 1 : 10){
@@ -57,13 +57,13 @@
   
 ###labeling of aas generation and colum binding with feature gerenated in append_12
 
-###search of best Neuralnetwork 
+###search of best Neuralnetwork in append_12
   
   
   
 ###append_1: read PDB
   ##########generate AA 321###########
-  aa321 <- read.delim("C:/Users/yikou/Desktop/neuralNet/AA321.txt", header=FALSE, comment.char="#")
+  aa321 <- read.delim("~/AA321.txt", header=FALSE, comment.char="#")
   AA321 <- matrix(ncol = 3, nrow = 22)
   colnames(AA321) <- c("name", "three_letter", "one_letter")
   for(a in 1 : 22){
@@ -72,7 +72,7 @@
     AA321[a,3] <- as.character(aa321[(a-1)*3+3, 1])
   }
   AA321 <- as.data.frame(AA321)
-  write.csv2(AA321, file = "C://Users//yikou//Desktop//neuralNet//AA_321.txt")
+  write.csv2(AA321, file = "~\AA_321.txt")
   
   ############aa321################
   aaTrans <- function(AA321, aa){
@@ -115,7 +115,7 @@
   
   
   ##############main############################
-  totalFile <- "C:\\Users\\yikou\\Desktop\\neuralNet\\MVD Data"
+  totalFile <- "~/MVD Data"
   totalList <- list.files(totalFile,pattern = "Docking")
   dockRes <- matrix(ncol = 12, nrow = length(MDVfiles))
   code <- c("[00]440_1", "[00]166_1", "[00]439_1", "[00]439_2")
@@ -139,7 +139,7 @@
   
 ###append_2: AA_sugar binding matrix
   ##import binding site binding score
-  bsSBs <- read.csv2("C:/Users/yikou/Desktop/neuralNet/IcoSugarBinding.txt", row.names=1)
+  bsSBs <- read.csv2("~/IcoSugarBinding.txt", row.names=1)
   ##whole sequence binding score
   wsSBs <- data.frame( matrix(ncol = 5, nrow = 20))
   colnames(wsSBs) <- colnames(bsSBs)
@@ -382,7 +382,7 @@
   
 ###append_5: functions for secondary structure score generation
   ##function 1: generate amino acid secondary structure supporting score
-  input <- "C:\\Users\\shawn\\Desktop\\ITresults" #I-Tasser result file
+  input <- "~\ITresults" #I-Tasser result file
   ssscore <- function(input = file){
     #get listed IT result 
     ITlist <- list.files(input)
@@ -726,7 +726,7 @@
   aaEX_ori <- aaEX_ori
   ##execute
   train_data <- featurePipe(SampleSet, p1_thresh, cavS, anchorList, nclass, aaEX_ori, SBM, SBW)
-  write.csv2(train_data, file = "C://Users//yikou//Desktop//neuralNet//control_data.txt")
+  write.csv2(train_data, file = "~\control_data.txt")
   
   ##function
   featurePipe <- function(aug_aasList, p1_thresh, cavS, anchorList, nclass, aaEX_ori, SBM, SBW){
@@ -823,7 +823,7 @@
   library(pracma)
   library(car)
   ##normalizing training data
-    train_data <- read.csv2("C:/Users/yikou/Desktop/neuralNet/train_data.txt", row.names=1)
+    train_data <- read.csv2("~/train_data.txt", row.names=1)
     for(a in 1:71){
       ave <- mean(train_data[,a])
       std <- sd(train_data[,a])
@@ -831,7 +831,7 @@
       train_data[,a] <- sigmoid(train_data[,a])
     }
   ##labeling train_data
-    train_class <- read.csv("C:/Users/yikou/Desktop/neuralNet/train_class.txt", row.names=1, sep=";")
+    train_class <- read.csv("~/train_class.txt", row.names=1, sep=";")
     label <- data.frame(matrix(ncol = 4, nrow = 660))
     label[1:60,] <- train_class[,2:5]
     colnames(label) <- c("L1","L2","L3","L4")
